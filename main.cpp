@@ -12,7 +12,7 @@ int main(){
     bool game = true;
     std::vector<std::unique_ptr<GameObject>> gameObjects;
 
-    gameObjects.push_back(new Spaceship("spaceship.png", 254, 682, 206, 243));
+    gameObjects.push_back(std::make_unique<Spaceship>("spaceship.png", 254, 682, 206, 243));
     
 
 	sf::Clock clock;

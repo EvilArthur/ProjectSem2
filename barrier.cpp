@@ -10,6 +10,10 @@ void Barrier::update(float time, std::vector<gameObject>& objects) {
         sprite.move(0, 0.7 * time);
     }
 
+std::string Barrier::Type() {
+    return type;
+}
+
 void Barrier::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 };
