@@ -7,7 +7,7 @@
 #include <iostream>
 #include <conio.h>
 
-void GameObject::update(float time)
+void GameObject::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)
 {
 	
 }
@@ -31,10 +31,12 @@ Spaceship::Spaceship(std::string f, int x, int y, int w, int h)
 	sprite.setPosition(x, y);
 }
 
-void Spaceship::update(float time)  {
+void Spaceship::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)  {
 
+	
 	sf::Vector2f ca = sprite.getPosition();
-
+	m_x = ca.x;
+	static bool space = false;
 	if(_kbhit()) 
 		sprite.setTextureRect(sf::IntRect(0, 0, m_h, m_h));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { 
@@ -48,20 +50,35 @@ void Spaceship::update(float time)  {
 			sprite.move(0.5 * time, 0);
 		sprite.setTextureRect(sf::IntRect(0, 0, m_w, m_h));
 	}
-
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		if ( !space)
+		{
+			space = true;
+			this->shoot(gameObjects);
+		}
+	}
+	else
+	{
+		if (space)
+		{
+			space = false;
+		}
+	}
+	
+	
 }
+
+
 
 void Spaceship::draw(sf::RenderWindow& window) 
 {
 	window.draw(sprite);
 }
 
-void Spaceship::shoot(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)
+void Spaceship::shoot(std::vector<std::unique_ptr<GameObject>>& gameObjects)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-	{
-		gameObjects.push_back(std::make_unique<Shoot>("bullet.png", m_x + (m_w / 2), m_y - 70, 58, 84));
-	}
+	gameObjects.push_back(std::make_unique<Shoot>("bullet.png", m_x + (m_w / 2) - 29, m_y - 70, 58, 84));
 }
 
 Spaceship::~Spaceship() = default;
@@ -81,9 +98,10 @@ Shoot::Shoot(std::string f, int x, int y, int w, int h)
 	sprite.setPosition(x, y);
 }
 
-void Shoot::update(float time)
+void Shoot::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)
 {
-	sprite.move(0, 0.7 * time);
+
+	sprite.move(0, -0.7 * time);
 }
 
 void Shoot::draw(sf::RenderWindow& window)

@@ -16,7 +16,7 @@ private:
 
 public:
 	GameObject() = default;
-	virtual void update(float time) = 0;
+	virtual void update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects) = 0;
 	virtual void draw(sf::RenderWindow& window) = 0;
 	virtual ~GameObject() = default;
 };
@@ -28,17 +28,16 @@ private:
 	sf::Texture texture;
 	sf::Sprite sprite;
 
+
 public:
 	
 	Spaceship(std::string f, int x, int y, int w, int h);
 
-	void update(float time) override;
-
-	static void shoot( float time);
+	void update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects) override;
 
 	void draw(sf::RenderWindow& window) override;
 
-	void shoot(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects);
+	void shoot(std::vector<std::unique_ptr<GameObject>>& gameObjects);
 
 	~Spaceship() override;
 	
@@ -55,7 +54,7 @@ private:
 public:
 	Shoot(std::string f, int x, int y, int w, int h);
 
-	void update(float time) override;
+	void update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects) override;
 
 	void draw(sf::RenderWindow& window) override;
 

@@ -12,7 +12,7 @@ int main(){
     bool game = true;
     std::vector<std::unique_ptr<GameObject>> gameObjects;
 
-    gameObjects.push_back(std::make_unique<Spaceship>("spaceship.png", 254, 682, 206, 243));
+	Spaceship ship("spaceship.png", 254, 682, 206, 243);
     
 
 	sf::Clock clock;
@@ -32,12 +32,14 @@ int main(){
             clock.restart();
             time = time / 800;
 
-  
+            ship.update(time, gameObjects);
+            
 
         window.clear();
         window.draw(road);
+        ship.draw(window);
         for (const auto& gameObject : gameObjects) {
-            gameObject->update(time);
+            gameObject->update(time, gameObjects);
         }
         for (const auto& gameObject : gameObjects) {
             gameObject->draw(window);
