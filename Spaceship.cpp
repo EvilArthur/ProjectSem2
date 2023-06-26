@@ -1,21 +1,14 @@
 //
 // Created by Admin on 25.06.2023.
 
-#include "Player.h"
-#include "SFML/Graphics.hpp"
-#include <string>
-#include <iostream>
+
+#include "Spaceship.h"
+#include <algorithm>
 #include <conio.h>
+#include <iostream>
 
-void GameObject::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)
-{
-	
-}
-void GameObject::draw(sf::RenderWindow& window)
-{
-	
-}
-
+#include "barrier.h"
+#include <vector>
 
 
 Spaceship::Spaceship(std::string f, int x, int y, int w, int h)
@@ -31,14 +24,12 @@ Spaceship::Spaceship(std::string f, int x, int y, int w, int h)
 	sprite.setPosition(x, y);
 }
 
-void Spaceship::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)  {
+void Spaceship::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)   {
 
 	
 	sf::Vector2f ca = sprite.getPosition();
 	m_x = ca.x;
 	static bool space = false;
-	if(_kbhit()) 
-		sprite.setTextureRect(sf::IntRect(0, 0, m_h, m_h));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { 
 		if (ca.x > 0) 
 			sprite.move(-0.5 * time, 0);
@@ -52,7 +43,7 @@ void Spaceship::update(float time, std::vector<std::unique_ptr<GameObject>>& gam
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		if ( !space)
+		if (!space)
 		{
 			space = true;
 			this->shoot(gameObjects);
@@ -95,13 +86,21 @@ Shoot::Shoot(std::string f, int x, int y, int w, int h)
 	texture.loadFromFile("texture/" + File);
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(0, 0, w, h));
-	sprite.setPosition(x, y);
+	sprite.setPosition(m_x, m_y);
 }
 
 void Shoot::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)
 {
-
 	sprite.move(0, -0.7 * time);
+
+	/*for (const auto& gameObject : gameObjects) {
+		if (auto barrier = dynamic_cast<Barrier*>(gameObject.get())) {
+			if (sprite.getGlobalBounds().intersects(barrier->get_Sprite().getGlobalBounds())) {
+				barrier->setPos(50, -165);
+			}
+		}
+	}*/
+	
 }
 
 void Shoot::draw(sf::RenderWindow& window)
@@ -109,7 +108,9 @@ void Shoot::draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
+sf::Sprite Shoot::get_Sprite()
+{
+	return sprite;
+}
+
 Shoot::~Shoot() = default;
-
-
-

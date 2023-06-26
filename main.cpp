@@ -1,7 +1,8 @@
 #include <iostream>
-#include "Player.h"
+#include "Spaceship.h"
+#include "gameObject.h"
+#include "barrier.h"
 #include "SFML/Graphics.hpp"
-#include <conio.h>
 #include <ctime>
 
 int main(){
@@ -11,12 +12,14 @@ int main(){
     sf::Sprite road(space);
     bool game = true;
     std::vector<std::unique_ptr<GameObject>> gameObjects;
-
+    gameObjects.push_back(std::make_unique<Barrier>("rock.png", 73, -165, 140, 165,"rock"));
+    gameObjects.push_back(std::make_unique<Barrier>("base.png", 100, -165*5, 240, 240, "base"));
 	Spaceship ship("spaceship.png", 254, 682, 206, 243);
     
 
 	sf::Clock clock;
-
+    int se = rand() % 4;
+    std::cout << se << std::endl;
 
     while (window.isOpen())
     {
@@ -27,18 +30,17 @@ int main(){
                 window.close();
         }
 
-    
-            float time = clock.getElapsedTime().asMicroseconds(); // Штука для правлного движения
-            clock.restart();
-            time = time / 800;
+    	float time = clock.getElapsedTime().asMicroseconds(); // Штука для правлного движения
+    	clock.restart();
+    	time = time / 800;
 
-            ship.update(time, gameObjects);
-            
-
+           
+           
         window.clear();
         window.draw(road);
         ship.draw(window);
-        for (const auto& gameObject : gameObjects) {
+        ship.update(time, gameObjects);
+        for (const auto& gameObject : gameObjects) { 
             gameObject->update(time, gameObjects);
         }
         for (const auto& gameObject : gameObjects) {

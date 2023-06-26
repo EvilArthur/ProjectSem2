@@ -4,22 +4,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <iostream>
+#include "gameObject.h"
 
-class GameObject
-{
-private:
-	int m_x, m_y, m_w, m_h;
-	std::string File;
-	sf::Texture texture;
-	sf::Sprite sprite;
 
-public:
-	GameObject() = default;
-	virtual void update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects) = 0;
-	virtual void draw(sf::RenderWindow& window) = 0;
-	virtual ~GameObject() = default;
-};
+class Shoot;
 
 class Spaceship: public GameObject {
 private:
@@ -27,6 +15,7 @@ private:
 	std::string File;
 	sf::Texture texture;
 	sf::Sprite sprite;
+	std::unique_ptr<Shoot> bullet;
 
 
 public:
@@ -39,6 +28,7 @@ public:
 
 	void shoot(std::vector<std::unique_ptr<GameObject>>& gameObjects);
 
+
 	~Spaceship() override;
 	
 };
@@ -50,6 +40,7 @@ private:
 	std::string File;
 	sf::Texture texture;
 	sf::Sprite sprite;
+	bool isActive = true;
 
 public:
 	Shoot(std::string f, int x, int y, int w, int h);
@@ -57,6 +48,9 @@ public:
 	void update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects) override;
 
 	void draw(sf::RenderWindow& window) override;
+
+	sf::Sprite get_Sprite(); 
+	
 
 	~Shoot() override;
 };
