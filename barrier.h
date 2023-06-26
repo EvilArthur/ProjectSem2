@@ -6,9 +6,10 @@ class Barrier :public GameObject {
 private:
     int m_x, m_y, m_w, m_h;
     std::string File;
-    std::string type;
+    std::string type = "base";
     sf::Texture texture;
     sf::Sprite sprite;
+   
 
 public:
     Barrier(const std::string& F, int x, int y, int w, int h, const std::string& t);

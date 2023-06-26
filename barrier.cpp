@@ -12,7 +12,7 @@ Barrier::Barrier(const std::string& f, int x, int y, int w, int h, const std::st
     m_w = w;
     m_h = h;
     File = f;
-    type = "base";
+    type = t;
     texture.loadFromFile("texture/" + File);
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, w, h));
@@ -23,7 +23,7 @@ Barrier::Barrier(const std::string& f, int x, int y, int w, int h, const std::st
 void Barrier::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects) {
     int se = rand() % 4;
     int se1 = rand() % 5;
-    if ((this->type = "base").data())
+    if ((this->type == "base"))
     {
         //std::cout << "base!!" << std::endl;
         sprite.move(0, 0.1 * time);
@@ -32,33 +32,17 @@ void Barrier::update(float time, std::vector<std::unique_ptr<GameObject>>& gameO
             //se = rand() % 4;
             sprite.setPosition(m_x + 100 * se1, m_y);
         }
-        /*for (const auto& gameObject : gameObjects) {
-            if (auto shot = dynamic_cast<Shoot*>(gameObject.get())) {
-                if (sprite.getGlobalBounds().intersects(shot->get_Sprite().getGlobalBounds())) {
-                    sprite.setPosition(m_x + 100 * se1, m_y);
 
-                }
-            }
-        }*/
     }
-    if ((this->type = "rock").data())
+    if ((this->type == "rock"))
     {
         //std::cout << "rock!!" << std::endl;
-        sprite.move(0, 0.1 * time);
+        sprite.move(0, 0.3 * time);
         sf::Vector2f pos_obs = sprite.getPosition();
         if (pos_obs.y > 960) {
             //se = rand() % 4;
             sprite.setPosition(m_x + 100 * se1, m_y);
         }
-
-        /*
-        for (const auto& gameObject : gameObjects) {
-            if (auto shot = dynamic_cast<Shoot*>(gameObject.get())) {
-                if (sprite.getGlobalBounds().intersects(shot->get_Sprite().getGlobalBounds())) {
-                    sprite.setPosition(m_x + 100 * se1, m_y);
-                }
-            }
-        }*/
     }
 
 }

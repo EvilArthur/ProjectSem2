@@ -12,9 +12,18 @@ int main(){
     sf::Sprite road(space);
     bool game = true;
     std::vector<std::unique_ptr<GameObject>> gameObjects;
-    gameObjects.push_back(std::make_unique<Barrier>("rock.png", 73, -165, 140, 165,"rock"));
-    gameObjects.push_back(std::make_unique<Barrier>("base.png", 100, -165*5, 240, 240, "base"));
-	Spaceship ship("spaceship.png", 254, 682, 206, 243);
+    gameObjects.push_back(std::make_unique<Barrier>("rock.png", 73, -165, 122, 122,"rock"));
+    gameObjects.push_back(std::make_unique<Barrier>("base.png", 100, -165*5, 170, 170, "base"));
+	Spaceship ship("spaceship.png", 254, 682, 201, 204);
+
+	sf::Texture over;
+    over.loadFromFile("texture/end.png");
+    sf::Sprite end(over);
+    end.setPosition(0, 0);
+   //sf::Texture expl;
+    //expl.loadFromFile("texture/exp2.png");
+    //sf::Sprite explosion(expl);
+
     
 
 	sf::Clock clock;
@@ -30,26 +39,40 @@ int main(){
                 window.close();
         }
 
-    	float time = clock.getElapsedTime().asMicroseconds(); // Øòóêà äëÿ ïðàâëíîãî äâèæåíèÿ
+    	float time = clock.getElapsedTime().asMicroseconds(); // Ð¨Ñ‚ÑƒÐºÐ° Ð´Ð»Ñ Ð¿Ñ€Ð°Ð²Ð»Ð½Ð¾Ð³Ð¾ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ
     	clock.restart();
     	time = time / 800;
 
            
-           
-        window.clear();
-        window.draw(road);
-        ship.draw(window);
-        ship.update(time, gameObjects);
-        for (const auto& gameObject : gameObjects) {
-            if (gameObject != nullptr) {
-                gameObject->update(time, gameObjects);
-            }
-        }
-        for (const auto& gameObject : gameObjects) {
-            gameObject->draw(window);
-        }
+        if(ship.isGameOver() == false){
+            window.clear();
+            window.draw(road);
+            ship.draw(window);
+            //window.draw(end);
+	        
+	        ship.update(time, gameObjects);
+	        for (const auto& gameObject : gameObjects) {
+	            if (gameObject != nullptr) {
+	                gameObject->update(time, gameObjects);
+	            }
+	        }
+	        for (const auto& gameObject : gameObjects) {
+	            gameObject->draw(window);
+	        }
 
-        window.display();
+	        window.display();
+        }
+        else if (ship.isGameOver() == true)
+        {
+            //window.clear();
+            ship.blow(window);
+        	window.draw(end);
+            window.display();
+            sf::sleep(sf::seconds(0.9f));
+            break;
+           
+        }
+        
     }
 
     return 0;

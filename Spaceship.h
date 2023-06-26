@@ -7,15 +7,14 @@
 #include "gameObject.h"
 
 
-class Shoot;
-
 class Spaceship: public GameObject {
 private:
 	int m_x, m_y, m_w, m_h;
 	std::string File;
 	sf::Texture texture;
 	sf::Sprite sprite;
-	std::unique_ptr<Shoot> bullet;
+	bool GameOver = false;
+	
 
 
 public:
@@ -28,6 +27,9 @@ public:
 
 	void shoot(std::vector<std::unique_ptr<GameObject>>& gameObjects);
 
+	bool isGameOver();
+
+	void blow(sf::RenderWindow& window);
 
 	~Spaceship() override;
 	
@@ -40,7 +42,7 @@ private:
 	std::string File;
 	sf::Texture texture;
 	sf::Sprite sprite;
-	bool isActive = true;
+	bool isDestroyed = true;
 
 public:
 	Shoot(std::string f, int x, int y, int w, int h);
@@ -50,7 +52,6 @@ public:
 	void draw(sf::RenderWindow& window) override;
 
 	sf::Sprite get_Sprite(); 
-	
 
 	~Shoot() override;
 };
