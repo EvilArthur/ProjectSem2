@@ -6,5 +6,5 @@ void GameObject::update(float time, std::vector<std::unique_ptr<GameObject>>& ga
 }
 void GameObject::draw(sf::RenderWindow& window)
 {
-
+	
 }

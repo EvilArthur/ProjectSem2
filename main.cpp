@@ -40,8 +40,11 @@ int main(){
         window.draw(road);
         ship.draw(window);
         ship.update(time, gameObjects);
-        for (const auto& gameObject : gameObjects) { 
-            gameObject->update(time, gameObjects);
+        std::cout << gameObjects.size() << std::endl;
+        for (const auto& gameObject : gameObjects) {
+            if (gameObject != nullptr) {
+                gameObject->update(time, gameObjects);
+            }
         }
         for (const auto& gameObject : gameObjects) {
             gameObject->draw(window);

@@ -32,14 +32,14 @@ void Barrier::update(float time, std::vector<std::unique_ptr<GameObject>>& gameO
             //se = rand() % 4;
             sprite.setPosition(m_x + 100 * se1, m_y);
         }
-        for (const auto& gameObject : gameObjects) {
+        /*for (const auto& gameObject : gameObjects) {
             if (auto shot = dynamic_cast<Shoot*>(gameObject.get())) {
                 if (sprite.getGlobalBounds().intersects(shot->get_Sprite().getGlobalBounds())) {
                     sprite.setPosition(m_x + 100 * se1, m_y);
 
                 }
             }
-        }
+        }*/
     }
     if ((this->type = "rock").data())
     {
@@ -50,13 +50,15 @@ void Barrier::update(float time, std::vector<std::unique_ptr<GameObject>>& gameO
             //se = rand() % 4;
             sprite.setPosition(m_x + 100 * se1, m_y);
         }
+
+        /*
         for (const auto& gameObject : gameObjects) {
             if (auto shot = dynamic_cast<Shoot*>(gameObject.get())) {
                 if (sprite.getGlobalBounds().intersects(shot->get_Sprite().getGlobalBounds())) {
                     sprite.setPosition(m_x + 100 * se1, m_y);
                 }
             }
-        }
+        }*/
     }
 
 }

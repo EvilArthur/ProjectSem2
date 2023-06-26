@@ -93,14 +93,23 @@ void Shoot::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObj
 {
 	sprite.move(0, -0.7 * time);
 
-	/*for (const auto& gameObject : gameObjects) {
-		if (auto barrier = dynamic_cast<Barrier*>(gameObject.get())) {
+	bool isCollided = false; // Флаг, указывающий, было ли столкновение пули
+
+	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it) {
+		if (auto barrier = dynamic_cast<Barrier*>(it->get())) {
 			if (sprite.getGlobalBounds().intersects(barrier->get_Sprite().getGlobalBounds())) {
 				barrier->setPos(50, -165);
+				isCollided = true;
+				break; // Выходим из цикла, так как столкновение уже произошло
 			}
 		}
-	}*/
-	
+	}
+
+	if (isCollided) {
+		// Удаляем пулю из вектора gameObjects
+		gameObjects.erase(std::remove_if(gameObjects.begin(), gameObjects.end(),
+			[this](const auto& obj) { return obj.get() == this; }), gameObjects.end());
+	}
 }
 
 void Shoot::draw(sf::RenderWindow& window)
