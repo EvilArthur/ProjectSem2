@@ -92,7 +92,7 @@ Shoot::Shoot(std::string f, int x, int y, int w, int h)
 void Shoot::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects)
 {
 	sprite.move(0, -0.7 * time);
-
+	sf::Vector2f pos_obs = sprite.getPosition();
 	bool isCollided = false; // Флаг, указывающий, было ли столкновение пули
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it) {
@@ -105,7 +105,7 @@ void Shoot::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObj
 		}
 	}
 
-	if (isCollided) {
+	if (isCollided || pos_obs.y < -84) {
 		// Удаляем пулю из вектора gameObjects
 		gameObjects.erase(std::remove_if(gameObjects.begin(), gameObjects.end(),
 			[this](const auto& obj) { return obj.get() == this; }), gameObjects.end());
