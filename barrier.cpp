@@ -1,5 +1,5 @@
 #include "barrier.h"
-
+#include "Logger.h"
 #include <iostream>
 
 #include "Spaceship.h"

@@ -3,6 +3,7 @@
 #include "gameObject.h"
 #include "barrier.h"
 #include "SFML/Graphics.hpp"
+#include "Logger.h"
 #include <ctime>
 
 int main(){
@@ -29,7 +30,7 @@ int main(){
 	sf::Clock clock;
     int se = rand() % 4;
     std::cout << se << std::endl;
-
+    logger::Logger::info("Game start");
     while (window.isOpen())
     {
         sf::Event event;

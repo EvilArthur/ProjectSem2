@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <conio.h>
 #include <iostream>
-
+#include "Logger.h"
 #include "barrier.h"
 #include <vector>
 
@@ -61,7 +61,7 @@ void Spaceship::update(float time, std::vector<std::unique_ptr<GameObject>>& gam
 		if (auto barrier = dynamic_cast<Barrier*>(gameObject.get())) {
 			if (sprite.getGlobalBounds().intersects(barrier->get_Sprite().getGlobalBounds())) {
 				GameOver = true;
-				
+				logger::Logger::info("Game over");
 				break;
 			}
 		}
@@ -143,11 +143,13 @@ void Shoot::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObj
 				if (barrier->get_Type() == "rock") {
 					barrier->setPos(12 * se, -165);
 					isCollided = true;
+					logger::Logger::info("The player destroyed the rock");
 					break; // Выходим из цикла, так как столкновение уже произошло
 				}
 				if (barrier->get_Type() == "base") {
 					barrier->setPos(50 * se, -165 * 5);
 					isCollided = true;
+					logger::Logger::info("The player destroyed the base");
 					break; // Выходим из цикла, так как столкновение уже произошло
 				}
 			}
