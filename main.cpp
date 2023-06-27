@@ -6,8 +6,10 @@
 #include "Logger.h"
 #include <ctime>
 
+
 int main(){
-    sf::RenderWindow window(sf::VideoMode(720, 960), "SFML works!");
+
+	sf::RenderWindow window(sf::VideoMode(720, 960), "SFML works!");
     sf::Texture space;
     space.loadFromFile("texture/fon.png");
     sf::Sprite road(space);
@@ -21,9 +23,7 @@ int main(){
     over.loadFromFile("texture/end.png");
     sf::Sprite end(over);
     end.setPosition(0, 0);
-   //sf::Texture expl;
-    //expl.loadFromFile("texture/exp2.png");
-    //sf::Sprite explosion(expl);
+   
 
     
 
@@ -33,46 +33,51 @@ int main(){
     logger::Logger::info("Game start");
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+		try {
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
 
-    	float time = clock.getElapsedTime().asMicroseconds(); // Штука для правлного движения
-    	clock.restart();
-    	time = time / 800;
+			float time = clock.getElapsedTime().asMicroseconds(); 
+			clock.restart();
+			time = time / 800;
 
-           
-        if(ship.isGameOver() == false){
-            window.clear();
-            window.draw(road);
-            ship.draw(window);
-            //window.draw(end);
-	        
-	        ship.update(time, gameObjects);
-	        for (const auto& gameObject : gameObjects) {
-	            if (gameObject != nullptr) {
-	                gameObject->update(time, gameObjects);
-	            }
-	        }
-	        for (const auto& gameObject : gameObjects) {
-	            gameObject->draw(window);
-	        }
 
-	        window.display();
-        }
-        else if (ship.isGameOver() == true)
-        {
-            //window.clear();
-            ship.blow(window);
-        	window.draw(end);
-            window.display();
-            sf::sleep(sf::seconds(0.9f));
-            break;
-           
-        }
+			if (ship.isGameOver() == false) {
+				window.clear();
+				window.draw(road);
+				ship.draw(window);
+				//window.draw(end);
+
+				ship.update(time, gameObjects);
+				for (const auto& gameObject : gameObjects) {
+					if (gameObject != nullptr) {
+						gameObject->update(time, gameObjects);
+					}
+				}
+				for (const auto& gameObject : gameObjects) {
+					gameObject->draw(window);
+				}
+
+				window.display();
+			}
+			else if (ship.isGameOver() == true)
+			{
+				//window.clear();
+				ship.blow(window);
+				window.draw(end);
+				window.display();
+				sf::sleep(sf::seconds(0.9f));
+				break;
+
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Exception occurred: " << e.what() << std::endl;
+		}
         
     }
 

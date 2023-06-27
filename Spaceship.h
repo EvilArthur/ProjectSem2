@@ -14,6 +14,8 @@ private:
 	sf::Texture texture;
 	sf::Sprite sprite;
 	bool GameOver = false;
+	int score = 0;
+
 	
 
 
@@ -31,6 +33,14 @@ public:
 
 	void blow(sf::RenderWindow& window);
 
+	int getScore() const;
+
+	void increaseScore();
+
+	void decreaseScore();
+
+	friend class Shoot;
+
 	~Spaceship() override;
 	
 };
@@ -43,15 +53,19 @@ private:
 	sf::Texture texture;
 	sf::Sprite sprite;
 	bool isDestroyed = true;
+	Spaceship* ship;
+	
+	
 
 public:
-	Shoot(std::string f, int x, int y, int w, int h);
+	Shoot(std::string f, int x, int y, int w, int h, Spaceship* sh);
 
 	void update(float time, std::vector<std::unique_ptr<GameObject>>& gameObjects) override;
 
 	void draw(sf::RenderWindow& window) override;
 
-	sf::Sprite get_Sprite(); 
+	sf::Sprite get_Sprite();
+
 
 	~Shoot() override;
 };
