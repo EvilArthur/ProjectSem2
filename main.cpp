@@ -18,7 +18,7 @@ int main(){
     gameObjects.push_back(std::make_unique<Barrier>("rock.png", 73, -165, 122, 122,"rock"));
     gameObjects.push_back(std::make_unique<Barrier>("base.png", 100, -165*5, 170, 170, "base"));
 	Spaceship ship("spaceship.png", 254, 682, 201, 204);
-
+	logger::Logger::includeFile();
 	sf::Texture over;
     over.loadFromFile("texture/end.png");
     sf::Sprite end(over);
@@ -71,12 +71,13 @@ int main(){
 				window.draw(end);
 				window.display();
 				sf::sleep(sf::seconds(0.9f));
+				logger::Logger::info("Game over");
 				break;
 
 			}
 		}
 		catch (const std::exception& e) {
-			std::cerr << "Exception occurred: " << e.what() << std::endl;
+			logger::Logger::error(e.what());
 		}
         
     }

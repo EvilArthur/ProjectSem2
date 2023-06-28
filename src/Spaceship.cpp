@@ -70,7 +70,7 @@ void Spaceship::update(float time, std::vector<std::unique_ptr<GameObject>>& gam
 	}
 	catch (const std::exception& e)
 	{
-		std::cerr << "Exception occurred in Spaceship::update(): " << e.what() << std::endl;
+		logger::Logger::error(e.what());
 	}
 	
 	
@@ -198,7 +198,7 @@ void Shoot::update(float time, std::vector<std::unique_ptr<GameObject>>& gameObj
 	}
 	catch (const std::exception& e)
 	{
-		std::cerr << "Exception occurred in Shoot::update(): " << e.what() << std::endl;
+		logger::Logger::error(e.what());
 	}
 }
 void Shoot::draw(sf::RenderWindow& window)
